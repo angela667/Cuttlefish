@@ -28,20 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.hist = new System.Windows.Forms.DataGridView();
+            this.dataGridHist = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.hist)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridHist)).BeginInit();
             this.SuspendLayout();
             // 
-            // hist
+            // dataGridHist
             // 
-            this.hist.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.hist.Location = new System.Drawing.Point(146, 138);
-            this.hist.Name = "hist";
-            this.hist.RowHeadersWidth = 51;
-            this.hist.RowTemplate.Height = 24;
-            this.hist.Size = new System.Drawing.Size(543, 275);
-            this.hist.TabIndex = 0;
+            this.dataGridHist.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridHist.Location = new System.Drawing.Point(146, 138);
+            this.dataGridHist.Name = "dataGridHist";
+            this.dataGridHist.RowHeadersWidth = 51;
+            this.dataGridHist.RowTemplate.Height = 24;
+            this.dataGridHist.Size = new System.Drawing.Size(543, 275);
+            this.dataGridHist.TabIndex = 0;
             // 
             // label1
             // 
@@ -58,11 +58,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.hist);
+            this.Controls.Add(this.dataGridHist);
             this.Name = "Historial";
             this.Text = "Historial";
             this.Load += new System.EventHandler(this.Historial_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.hist)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridHist)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -70,7 +70,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView hist;
+        private System.Windows.Forms.DataGridView dataGridHist;
         private System.Windows.Forms.Label label1;
     }
 }

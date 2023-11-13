@@ -1,6 +1,6 @@
 ﻿namespace Proyecto_V1
 {
-    partial class SignIn
+    partial class Form3
     {
         /// <summary>
         /// Required designer variable.
@@ -103,7 +103,7 @@
             this.LogIn.Name = "LogIn";
             this.LogIn.Size = new System.Drawing.Size(229, 60);
             this.LogIn.TabIndex = 6;
-            this.LogIn.Text = "SIGN IN";
+            this.LogIn.Text = "LOG IN";
             this.LogIn.UseVisualStyleBackColor = false;
             this.LogIn.Click += new System.EventHandler(this.LogIn_Click);
             // 
