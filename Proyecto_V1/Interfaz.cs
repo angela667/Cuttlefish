@@ -18,11 +18,12 @@ namespace Proyecto_V1
     {
         Socket server;
         Thread atender;
+        List<String> anadir_partida = new List<String>();
+        public string mensaje_invitados;
         bool connected = false;
-        bool log_in = false;
-        bool sign_in = false;
+        bool registrado = false;
         int contador = 0;
-        string username;
+        public string username;
 
         //VALORS PER RECORDAR-ME DE LES IP I PORTS
         //string IPaddloc = "192.168.56.102";
@@ -30,6 +31,9 @@ namespace Proyecto_V1
         //string IPaddshiv = "10.4.119.5";
         //int puertoshiv = 50085;
         //VALORS PER RECORDAR-ME DE LES IP I PORTS
+
+        //string IPaddlocG = 10.211.55.5
+        // 10.4.119.5
 
 
         //DEFINIM UNA RUTA IP I PORT
@@ -53,6 +57,8 @@ namespace Proyecto_V1
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
+            miPersonaje.Focus();
+            
         }
         private void AtenderServidor()
         {
@@ -75,7 +81,7 @@ namespace Proyecto_V1
                         if (verify[0] == "Usuario")
                         {
                             username = verify[1];
-                            log_in = true;
+                            registrado = true;
                         }
                         MessageBox.Show(mensaje);
 
@@ -88,7 +94,7 @@ namespace Proyecto_V1
                         if (verify[0] == "Sesion")
                         {
                             username = verify[3].Split('.')[0];
-                            sign_in = true;
+                            registrado = true;
                         }
                         MessageBox.Show(mensaje);
                         break;
@@ -103,19 +109,62 @@ namespace Proyecto_V1
                         int rowcount = Convert.ToInt32(trozos[1]);
                         CONNAMES.RowCount = rowcount;
                         CONNAMES.ColumnCount = 1;
+                        CONNAMES.Columns[1].HeaderText = "Conectados";
                         int count = 0;
                         while( count < rowcount-1)
-                        {
-                            
+                        {           
                             CONNAMES.Rows[count].Cells[0].Value = trozos[count+2];
                             count++;
                         }
                         CONNAMES.Rows[count].Cells[0].Value = trozos[count+2].Split('\0')[0];
                         break;
 
+                    case 5: //INVITAR A OTRO USUARIO
+
+                        int quien = Convert.ToInt32(trozos[1]);
+                        int partida = Convert.ToInt32(trozos[2]);
+
+                        if (quien == 0)// respuesta para el anfitrion
+                        {
+                            MessageBox.Show("Ahora eres el anfitrion");
+                        }
+                        else //respuesta para los invitados
+                        {
+                            MessageBox.Show("Bienvenido invitado");
+                        }
+
+                        break;
+
+                    case 6: //RESPUESTA A LA INVITACIÓN
+
+
+                        break;
                 }
             }
         }
+
+        public int crearPartida()
+        {
+            if (anadir_partida.Count() == 0)
+            {
+                return -1;
+            }
+            else
+            {
+                var random = new Random();
+                int partida = random.Next();
+                mensaje_invitados = "5/" + partida + "/" + username + "/";
+
+                int i;
+                for (i = 0; i < anadir_partida.Count(); i++)
+                {
+                    mensaje_invitados = mensaje_invitados + anadir_partida[i] + "/";
+                }
+                return 0;
+            }
+
+        }
+
         public void Form1_Load(object sender, EventArgs e)
         {
             // Set the form's border style to FixedSingle.
@@ -136,30 +185,41 @@ namespace Proyecto_V1
             SELECT.Visible = false;
             NEXT.Visible = false;
             PREVIOUS.Visible = false;
+            ENVIAR.Visible = false;
 
             LabelIntro.Visible = false;
             pictureBox2.Visible = false;
-
             holi.Visible = true;
-            holi.BackColor = Color.Red;
+
+            miPersonaje.Visible = false;
+            personajeRival.Visible = false;
 
             connect.Location = new System.Drawing.Point(680, 500);
             connect.Location = new System.Drawing.Point(680, 500);
             disconnect.Visible = false;
             //historial.Visible = false;
 
-            if (sign_in == true || log_in == true)
+            this.KeyPreview = true;
+
+            if ((registrado == true) && (connected == true))
             {
-                button2.Visible = false;
+                //pictureBox1.Visible = false;
                 button1.Visible = false;
+                button2.Visible = false;
+                disconnect.Visible = false;
+                //connect.Visible = false;
+                historial.Visible = false;
+                //button6.Visible = false;
+
                 historial.Visible = true;
-                CONNAMES.Visible = true;
+
                 SELECT.Visible = true;
                 NEXT.Visible = true;
                 PREVIOUS.Visible = true;
                 LabelIntro.Visible = true;
                 pictureBox2.Visible = true;
-                pictureBox1.Image = Image.FromFile("FONDO4.png");
+                ENVIAR.Visible = true;
+                pictureBox1.Image = Image.FromFile("FONDO5.png");
                 pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
                 pictureBox2.Image = this.images[this.contador];
             }
@@ -177,7 +237,6 @@ namespace Proyecto_V1
                 holi.BackColor = Color.Red;
             }
 
-
         }
 
         //BOTON1
@@ -187,15 +246,7 @@ namespace Proyecto_V1
             Thread T = new Thread(ts);
             T.Start();
 
-            //pictureBox1.Visible = false;
-            button1.Visible = false;
-            button2.Visible = false;
-            disconnect.Visible = false;
-            //connect.Visible = false;
-            historial.Visible = false;
-           
-            holi.BackColor = Color.Green;
-            sign_in = true;
+            registrado = true;
     }
 
         private void button1_MouseEnter(object sender, EventArgs e)
@@ -215,6 +266,7 @@ namespace Proyecto_V1
             ThreadStart ts = delegate { PonerEnMarchaFormulario2(); };
             Thread T = new Thread(ts);
             T.Start();
+            registrado = true;
         }
         private void button2_MouseEnter(object sender, EventArgs e)
         {
@@ -238,7 +290,6 @@ namespace Proyecto_V1
 
             // Nos desconectamos
             atender.Abort();
-            this.BackColor = Color.Gray;
             server.Shutdown(SocketShutdown.Both);
             server.Close();
             MessageBox.Show("User disconnected successfully.");
@@ -247,7 +298,6 @@ namespace Proyecto_V1
             {
                 disconnect.Visible = false;
                 connect.Visible = true;
-                holi.BackColor = Color.Red;
             }
 
 
@@ -265,7 +315,7 @@ namespace Proyecto_V1
         //CONECTAR CON EL SERVIDOR
         private void button4_Click(object sender, EventArgs e)
         {
-            //Creamos un IPEndPoint con el ip del servidor ypuerto del servidor 
+            //Creamos un IPEndPoint con el ip del servidor y puerto del servidor 
             //al que deseamos conectarnos
             IPAddress direc = IPAddress.Parse(IPadd);
             IPEndPoint ipep = new IPEndPoint(direc, puerto);
@@ -276,7 +326,6 @@ namespace Proyecto_V1
             try
             {
                 server.Connect(ipep);//Intentamos conectar el socket
-                this.BackColor = Color.Green;
                 MessageBox.Show("User connected successfully.");
                 //pongo en marcha el thread que atenderá los mensajes del servidor
                 ThreadStart ts = delegate { AtenderServidor(); };
@@ -287,7 +336,6 @@ namespace Proyecto_V1
                 {
                     connect.Visible = false;
                     disconnect.Visible = true;
-                    holi.BackColor = Color.Green;
                 }
 
             }
@@ -331,15 +379,6 @@ namespace Proyecto_V1
             historial.Show();
 
         }
-        private void PonerEnMarchaMinigame()
-        {
-            
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            
-        }
 
         private void NEXT_Click(object sender, EventArgs e)
         {
@@ -373,6 +412,80 @@ namespace Proyecto_V1
         private void disconnect_Leave(object sender, EventArgs e)
         {
             disconnect.Size = new Size((int)(disconnect.Width / 1.2f), (int)(disconnect.Height / 1.2f));
+        }
+        /*
+        private void Mover_Personaje(object sender, KeyEventArgs e)
+        {
+            int Distancia = 10;
+            switch (e.KeyCode)
+            {
+                case Keys.Up:
+                    miPersonaje.Top -= Distancia;
+                    break;
+                case Keys.Down:
+                    miPersonaje.Top += Distancia;
+                    break;
+                case Keys.Left:
+                    miPersonaje.Left -= Distancia;
+                    break;
+                case Keys.Right:
+                    miPersonaje.Left += Distancia;
+                    break;
+            }
+        }*/
+
+        private void SELECT_Click(object sender, EventArgs e)
+        {
+            historial.Visible = false;
+            SELECT.Visible = false;
+            NEXT.Visible = false;
+            PREVIOUS.Visible = false;
+            LabelIntro.Visible = false;
+            pictureBox2.Visible = false;
+            holi.Visible = false;
+            //label1.Visible = false;
+            //contLbl.Visible = false;
+            connect.Visible = false;
+            CONNAMES.Visible = false;
+
+
+            miPersonaje.Visible = true;
+            miPersonaje.BackColor = Color.Red;
+            personajeRival.Visible = true;
+            personajeRival.BackColor = Color.Blue;
+
+            pictureBox1.Image = Image.FromFile("FONDO4.png");
+            
+            miPersonaje.SizeMode = PictureBoxSizeMode.Zoom;
+            personajeRival.SizeMode = PictureBoxSizeMode.Zoom;
+            miPersonaje.Image = this.images[this.contador];
+            if (this.contador >= this.images.Length)
+            {
+                this.contador = 0;
+            }
+            personajeRival.Image = this.images[this.contador+1];
+
+        }
+
+        private void CONNAMES_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewRow selectedRow = CONNAMES.SelectedRows[0];
+            string nombre = selectedRow.Cells["Conectados"].Value.ToString();
+
+            string mensaje = "5/" + nombre;
+            // Enviamos al servidor el nombre tecleado
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+            this.Close();
+        }
+        public string Darinvitados()
+        {
+            return mensaje_invitados;
+        }
+
+        private void ENVIAR_Click(object sender, EventArgs e)
+        {
+            int InvitarPartida = crearPartida();
         }
     }
 }

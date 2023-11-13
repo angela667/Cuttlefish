@@ -25,6 +25,14 @@ typedef struct{
 	int num;
 } ListaConectados;
 
+typedef struct{
+	Conectado conectados[5];
+	int num;
+	int ID;
+	int respuesta;
+	int num_invitados;
+}Partida;
+
 int PonConectados(ListaConectados *lista, char nombre[20], int socket)
 {
 	if (lista->num == 100)
@@ -49,6 +57,23 @@ int BuscarPosicion(ListaConectados *lista, char nombre[20])
 	}
 	if(encontrado == 1)	
 		return i;
+	else
+		return -1;
+}
+
+int DameSocket (ListaConectados *lista, char nombre[20]){
+	//Devuelve el socket o -1 si no esta en la lista
+	int i=0;
+	int encontrado=0;
+	while ((i< lista.num) && !encontrado)
+	{
+		if (strcmp(lista.conectados[i].nombre,nombre)==0)
+			encontrado =1;
+		if(!encontrado)
+			i=i+1;
+	}
+	if (encontrado)
+		return lista.conectados [i].socket;
 	else
 		return -1;
 }
@@ -81,9 +106,189 @@ void DameConectados(ListaConectados *lista, char conectados[512])
 	conectados[strlen(conectados)-1] = '\0';
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int PonJugadorPartida (Partida *partida,char nombre[20],int socket){
+	int encontrado=0;
+	int i=0;
+	if (partida->num==5)
+		return -1;
+	else
+	{
+		while (i<partida->num && encontrado==0 )
+		{
+			if (strcmp(partida->conectados[i].nombre,nombre)==0)
+			{
+				encontrado=1;
+				break;
+			}
+			i=i+1;
+		}
+		
+		if (encontrado==0) {
+			printf("%s fue añadido correctamente en la partida número: %d en la posicion: %d\n",nombre,partida->ID,partida->num);
+			strcpy(partida->conectados[partida->num].nombre,nombre);
+			partida->conectados[partida->num].socket=socket;
+			partida->num=partida->num+1;
+			printf("Número de jugadores en la partida: %d = %d\n",partida->ID,partida->num);
+			return 0;
+		}
+		else
+			return -2;
+	}
+}
+
+int DamePosicionJugadorPartida (Partida partida,char nombre[20])
+{
+	int i=0;
+	int encontrado=0;
+	while ((i<partida.num) && !encontrado)
+	{
+		if (strcmp(partida.conectados[i].nombre,nombre)==0)
+			encontrado=1;
+		if(!encontrado)
+			i=i+1;
+	}
+	if (encontrado)
+		return i;
+	else
+		return -1;
+}
+
+int DameSocketJugadorPartida (Partida partida, char nombre[20]){
+	int i=0;
+	int encontrado=0;
+	while ((i< partida.num) && !encontrado)
+	{
+		if (strcmp(partida.conectados[i].nombre,nombre)==0)
+			encontrado =1;
+		if(!encontrado)
+			i=i+1;
+	}
+	if (encontrado)
+		return partida.conectados [i].socket;
+	else
+		return -1;
+}
+
+
+int EliminarJugadorPartida (Partida partida,char nombre[20]) 
+{
+	int pos = DamePosicionJugadorPartida (partida,nombre);
+	if (pos==-1)
+		return -1;
+	else{
+		int i;
+		for (i=pos;i<partida.num -1;i++)
+			partida.conectados[i]=partida.conectados[i+1];
+		
+		partida.num--;
+		return 0;
+	}
+}
+void DameJugadoresPartida (Partida partida,char conectados[300])
+{
+	sprintf(conectados,"%d",partida.num);
+	int i;
+	for (i=0;i<partida.num;i++)
+		sprintf(conectados,"%s/%s",conectados,partida.conectados[i].nombre);
+}
+
+typedef Partida partidas[100];
+
+void Inicializar_Tabla_Partidas(partidas Tabla)
+{
+	printf("Tabla inicializada correctamente\n");
+	int i;
+	for (i=0;i<100;i++)
+		Tabla[i].num=0;
+}
+
+int PonPartida(partidas Tabla,Partida partida)
+{
+	int encontrado;
+	int i=0;
+	while ((i<100) && !encontrado)
+	{
+		if (Tabla[i].num==0)
+			encontrado=1;
+		i=i+1;
+	}
+	if (encontrado)
+	{
+		printf("Partida %d anadida correctamente en la tabla\n",partida.ID);
+		Tabla[i]=partida;
+		return 0;
+	}
+	else
+		return -1;
+}
+int DamePosicionPartida(partidas Tabla,Partida partida)
+{
+	int i=0;
+	int encontrado;
+	while (i<100)
+	{
+		if (Tabla[i].ID==partida.ID)
+			encontrado=1;
+			break;
+		i=i+1;
+	}
+	if (encontrado)
+		return i;
+	
+	else
+		return -1;
+	
+}
+int EliminarPartida(partidas Tabla,Partida partida)
+{
+	int pos=DamePosicionPartida(Tabla,partida);
+	if (pos!=-1)
+		Tabla[pos].num=0;
+		return 0;
+		
+	else
+		return -1;
+}
+int DamePosicionPartidaID(partidas Tabla,int ID)
+{
+	int i=0;
+	int encontrado;
+	while (i<100)
+	{
+		if (Tabla[i].ID==ID)
+			encontrado=1;
+			break;
+		i=i+1;
+	}
+	
+	if (encontrado)
+		return i;
+	
+	else
+		return -1;
+	
+}
+
+int EliminarPartidaID(partidas Tabla, int ID)
+{
+	int pos=DamePosicionPartidaID(Tabla,ID);
+	if (pos!=-1)
+		Tabla[pos].num=0;
+		return 0;
+		
+	else
+		return -1;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 void *AtenderCliente (void *socket)
 {
 	ListaConectados miLista;
+	partidas miPartidas;
 	int sock_conn;
 	int *s;
 	s= (int *) socket;
@@ -117,6 +322,13 @@ void *AtenderCliente (void *socket)
 		char nombre[20];
 		i = 0;
 		
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
+		char anfitrion [20];
+		char invitado[20];
+		char invitacion[100];
+		int IDpartida;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+
 		if (codigo ==1 || codigo == 2 || codigo == 3)
 		{
 			p = strtok( NULL, "/");
@@ -278,6 +490,80 @@ void *AtenderCliente (void *socket)
 				}
 			}
 		}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		else if (codigo == 5){ //Invitar a jugar
+
+			p = strtok( NULL, "/");
+			IDpartida= atoi(p);		
+			p = strtok( NULL, "/");
+			strcpy (anfitrion, p);
+			int pos=DamePosicionJugadorPartida(&miLista,anfitrion);
+			// Ya tenemos el nombre
+			Partida partidas;
+			partidas.ID=IDpartida;
+				
+			int sockk=DameSocket(&miLista,anfitrion);
+			int anadir_anfitrion= PonJugadorPartida(&partidas,anfitrion,sockk);
+
+			
+			PonPartida(miPartidas,partidas);
+			int Pos= DamePosicionPartidaID(miPartidas,IDpartida);
+			printf("El anfitrion es: %s en la partida número: %d en la posicion: %d\n",partidas.conectados[0].nombre,partidas.ID,partidas.num);
+			printf("Número de jugadores en la partida: %d = %d\n",partidas.ID,partidas.num);
+			
+			p = strtok( NULL, "/");
+			sprintf(respuesta,"5/0/%d",IDpartida);
+			int numInvitadosConectados=0;
+			char invitadosConectados[100];
+			char invCon[100];
+			while (p!=NULL)
+			{
+				strcpy (invitado, p);
+				int j=DameSocket(&miLista,invitado);
+				if (j==-1)
+					printf("El jugador %s se ha desconectado\n",invitado);
+
+				else
+				{
+					printf("invitacion : %s al jugador %s\n",invitacion,invitado);
+					numInvitadosConectados=numInvitadosConectados+1;
+					sprintf(invCon,"%s/",invitado);
+					if (numInvitadosConectados==1)
+					{
+						sprintf(invitadosConectados,"%s",invCon);
+						
+					}
+					else
+					{
+						strcat(invitadosConectados,invCon);
+					}
+					write (j,invitacion, strlen(invitacion));
+					//envio la invitacion a cada invitado
+					
+				}
+				p = strtok( NULL, "/");
+			}
+			
+			sprintf(respuesta,"%s/%d",respuesta,numInvitadosConectados);
+			strcat(respuesta,"/");
+			strcat(respuesta,invitadosConectados);
+			printf("Respuesta que se envia al anfitrion:%s\n",respuesta);
+			miPartidas[Pos].num_invitados=miPartidas[Pos].num_invitados+numInvitadosConectados;
+			
+		}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+else if (codigo==6) //peticion de aceptar o rechazar una invitacion de partida
+		{
+			
+		}
+			
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
 		
 		if (codigo !=0)
 		{
@@ -286,7 +572,7 @@ void *AtenderCliente (void *socket)
 			write (sock_conn,respuesta, strlen(respuesta));
 			i = i + 1;
 		}
-		if ((codigo ==1)||(codigo==2)||(codigo==3))
+		if ((codigo ==1)||(codigo==2)||(codigo==3) || (codigo==4))
 		{
 			pthread_mutex_lock( &mutex ); //No me interrumpas ahora
 			contador = contador +1;
