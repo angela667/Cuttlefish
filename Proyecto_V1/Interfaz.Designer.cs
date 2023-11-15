@@ -241,12 +241,14 @@
             // 
             // CONNAMES
             // 
+            this.CONNAMES.AllowUserToDeleteRows = false;
             this.CONNAMES.ColumnHeadersHeight = 29;
             this.CONNAMES.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
             this.CONNAMES.Location = new System.Drawing.Point(150, 352);
             this.CONNAMES.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.CONNAMES.Name = "CONNAMES";
+            this.CONNAMES.ReadOnly = true;
             this.CONNAMES.RowHeadersWidth = 51;
             this.CONNAMES.Size = new System.Drawing.Size(447, 497);
             this.CONNAMES.TabIndex = 34;
@@ -257,6 +259,7 @@
             this.Column1.HeaderText = "Column1";
             this.Column1.MinimumWidth = 6;
             this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
             this.Column1.Width = 125;
             // 
             // miPersonaje

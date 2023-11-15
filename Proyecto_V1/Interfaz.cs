@@ -24,6 +24,7 @@ namespace Proyecto_V1
         bool registrado = false;
         int contador = 0;
         public string username;
+        string nombre;
 
         //VALORS PER RECORDAR-ME DE LES IP I PORTS
         //string IPaddloc = "192.168.56.102";
@@ -37,8 +38,8 @@ namespace Proyecto_V1
 
 
         //DEFINIM UNA RUTA IP I PORT
-        string IPadd = "10.4.119.5";
-        int puerto = 50085;
+        string IPadd = "192.168.56.102";
+        int puerto = 5065;
 
 
 
@@ -82,6 +83,7 @@ namespace Proyecto_V1
                         {
                             username = verify[1];
                             registrado = true;
+                            
                         }
                         MessageBox.Show(mensaje);
 
@@ -95,6 +97,7 @@ namespace Proyecto_V1
                         {
                             username = verify[3].Split('.')[0];
                             registrado = true;
+                           
                         }
                         MessageBox.Show(mensaje);
                         break;
@@ -109,7 +112,7 @@ namespace Proyecto_V1
                         int rowcount = Convert.ToInt32(trozos[1]);
                         CONNAMES.RowCount = rowcount;
                         CONNAMES.ColumnCount = 1;
-                        CONNAMES.Columns[1].HeaderText = "Conectados";
+                        DataGridViewColumn column = CONNAMES.Columns["Conectados"];
                         int count = 0;
                         while( count < rowcount-1)
                         {           
@@ -143,7 +146,7 @@ namespace Proyecto_V1
             }
         }
 
-        public int crearPartida()
+        /*public int crearPartida()
         {
             if (anadir_partida.Count() == 0)
             {
@@ -160,10 +163,16 @@ namespace Proyecto_V1
                 {
                     mensaje_invitados = mensaje_invitados + anadir_partida[i] + "/";
                 }
+                
+                string mensaje = mensaje_invitados;
+                // Enviamos al servidor el nombre tecleado
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(msg);
+                this.Close();
                 return 0;
             }
 
-        }
+        }*/
 
         public void Form1_Load(object sender, EventArgs e)
         {
@@ -463,21 +472,10 @@ namespace Proyecto_V1
             {
                 this.contador = 0;
             }
-            personajeRival.Image = this.images[this.contador+1];
+            //personajeRival.Image = this.images[this.contador+1];
 
         }
 
-        private void CONNAMES_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridViewRow selectedRow = CONNAMES.SelectedRows[0];
-            string nombre = selectedRow.Cells["Conectados"].Value.ToString();
-
-            string mensaje = "5/" + nombre;
-            // Enviamos al servidor el nombre tecleado
-            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-            server.Send(msg);
-            this.Close();
-        }
         public string Darinvitados()
         {
             return mensaje_invitados;
@@ -485,7 +483,32 @@ namespace Proyecto_V1
 
         private void ENVIAR_Click(object sender, EventArgs e)
         {
-            int InvitarPartida = crearPartida();
+            //int InvitarPartida = crearPartida();
+            
+                var random = new Random();
+                int partida = random.Next();
+                mensaje_invitados = "5/" + partida + "/" + username + "/";
+
+                int i;
+                for (i = 0; i < anadir_partida.Count(); i++)
+                {
+                    mensaje_invitados = mensaje_invitados + anadir_partida[i] + "/";
+                }
+
+                string mensaje = mensaje_invitados;
+                // Enviamos al servidor el nombre tecleado
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(msg);
+        }
+
+        private void CONNAMES_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = this.CONNAMES.Rows[e.RowIndex];
+                nombre = row.Cells[0].Value.ToString();
+                MessageBox.Show("The selected name is: " + nombre);
+            }
         }
     }
 }

@@ -65,15 +65,15 @@ int DameSocket (ListaConectados *lista, char nombre[20]){
 	//Devuelve el socket o -1 si no esta en la lista
 	int i=0;
 	int encontrado=0;
-	while ((i< lista.num) && !encontrado)
+	while ((i< lista->num) && !encontrado)
 	{
-		if (strcmp(lista.conectados[i].nombre,nombre)==0)
+		if (strcmp(lista->conectados[i].nombre,nombre)==0)
 			encontrado =1;
 		if(!encontrado)
 			i=i+1;
 	}
 	if (encontrado)
-		return lista.conectados [i].socket;
+		return lista->conectados [i].socket;
 	else
 		return -1;
 }
@@ -244,10 +244,10 @@ int DamePosicionPartida(partidas Tabla,Partida partida)
 int EliminarPartida(partidas Tabla,Partida partida)
 {
 	int pos=DamePosicionPartida(Tabla,partida);
-	if (pos!=-1)
+	if (pos!=-1){
 		Tabla[pos].num=0;
 		return 0;
-		
+	}
 	else
 		return -1;
 }
@@ -274,16 +274,17 @@ int DamePosicionPartidaID(partidas Tabla,int ID)
 int EliminarPartidaID(partidas Tabla, int ID)
 {
 	int pos=DamePosicionPartidaID(Tabla,ID);
-	if (pos!=-1)
+	if (pos!=-1){
 		Tabla[pos].num=0;
 		return 0;
-		
+	}	
 	else
 		return -1;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void *AtenderCliente (void *socket)
 {
@@ -322,13 +323,12 @@ void *AtenderCliente (void *socket)
 		char nombre[20];
 		i = 0;
 		
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
 		char anfitrion [20];
 		char invitado[20];
 		char invitacion[100];
+		int juego;
 		int IDpartida;
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-
+		
 		if (codigo ==1 || codigo == 2 || codigo == 3)
 		{
 			p = strtok( NULL, "/");
@@ -348,7 +348,7 @@ void *AtenderCliente (void *socket)
 		
 		if (codigo ==1) { //SIGN UP
 			MYSQL *conn = mysql_init(NULL);
-			conn = mysql_real_connect(conn, "localhost", "root", "mysql", "CuttlefishBBDD", 0, NULL, 0);
+			conn = mysql_real_connect(conn, "localhost", "root", "mysqlmysql", "CuttlefishBBDD", 0, NULL, 0);
 			
 			if (conn == NULL){
 				printf("Error al conectar con la base de datos.\n");
@@ -402,7 +402,7 @@ void *AtenderCliente (void *socket)
 		else if (codigo ==2){ //LOG IN
 			// Conecta con la base de datos
 			MYSQL *conn = mysql_init(NULL);
-			conn = mysql_real_connect(conn, "localhost", "root", "mysql", "CuttlefishBBDD", 0, NULL, 0);
+			conn = mysql_real_connect(conn, "localhost", "root", "mysqlmysql", "CuttlefishBBDD", 0, NULL, 0);
 			if (conn == NULL){
 				printf("Error al conectar con la base de datos.\n");
 				sprintf (respuesta,"2/Error al conectar con la base de datos.\n");
@@ -447,7 +447,7 @@ void *AtenderCliente (void *socket)
 		
 		else if (codigo == 3){
 			MYSQL *conn = mysql_init(NULL);
-			conn = mysql_real_connect(conn, "localhost", "root", "mysql", "CuttlefishBBDD", 0, NULL, 0);
+			conn = mysql_real_connect(conn, "localhost", "root", "mysqlmysql", "CuttlefishBBDD", 0, NULL, 0);
 			
 			if (conn == NULL){
 				printf("Error al conectar con la base de datos.\n");
@@ -499,25 +499,25 @@ void *AtenderCliente (void *socket)
 			IDpartida= atoi(p);		
 			p = strtok( NULL, "/");
 			strcpy (anfitrion, p);
-			int pos=DamePosicionJugadorPartida(&miLista,anfitrion);
 			// Ya tenemos el nombre
-			Partida partidas;
-			partidas.ID=IDpartida;
+			Partida partidA;
+			partidA.ID=IDpartida;
 				
+			
 			int sockk=DameSocket(&miLista,anfitrion);
-			int anadir_anfitrion= PonJugadorPartida(&partidas,anfitrion,sockk);
+			int anadir_anfitrion= PonJugadorPartida(&partidA,anfitrion,sockk);
 
 			
-			PonPartida(miPartidas,partidas);
+			PonPartida(miPartidas,partidA);
 			int Pos= DamePosicionPartidaID(miPartidas,IDpartida);
-			printf("El anfitrion es: %s en la partida número: %d en la posicion: %d\n",partidas.conectados[0].nombre,partidas.ID,partidas.num);
-			printf("Número de jugadores en la partida: %d = %d\n",partidas.ID,partidas.num);
+			printf("El anfitrion es: %s en la partida número: %d en la posicion: %d\n",partidA.conectados[0].nombre,partidA.ID,partidA.num);
+			printf("Número de jugadores en la partida: %d = %d\n",partidA.ID,partidA.num);
 			
 			p = strtok( NULL, "/");
 			sprintf(respuesta,"5/0/%d",IDpartida);
-			int numInvitadosConectados=0;
+			int nInvitadosConectados=0;
 			char invitadosConectados[100];
-			char invCon[100];
+			char invC[100];
 			while (p!=NULL)
 			{
 				strcpy (invitado, p);
@@ -528,16 +528,16 @@ void *AtenderCliente (void *socket)
 				else
 				{
 					printf("invitacion : %s al jugador %s\n",invitacion,invitado);
-					numInvitadosConectados=numInvitadosConectados+1;
-					sprintf(invCon,"%s/",invitado);
-					if (numInvitadosConectados==1)
+					nInvitadosConectados=nInvitadosConectados+1;
+					sprintf(invC,"%s/",invitado);
+					if (nInvitadosConectados==1)
 					{
-						sprintf(invitadosConectados,"%s",invCon);
+						sprintf(invitadosConectados,"%s",invC);
 						
 					}
 					else
 					{
-						strcat(invitadosConectados,invCon);
+						strcat(invitadosConectados,invC);
 					}
 					write (j,invitacion, strlen(invitacion));
 					//envio la invitacion a cada invitado
@@ -546,11 +546,11 @@ void *AtenderCliente (void *socket)
 				p = strtok( NULL, "/");
 			}
 			
-			sprintf(respuesta,"%s/%d",respuesta,numInvitadosConectados);
+			sprintf(respuesta,"%s/%d",respuesta,nInvitadosConectados);
 			strcat(respuesta,"/");
 			strcat(respuesta,invitadosConectados);
 			printf("Respuesta que se envia al anfitrion:%s\n",respuesta);
-			miPartidas[Pos].num_invitados=miPartidas[Pos].num_invitados+numInvitadosConectados;
+			miPartidas[Pos].num_invitados=miPartidas[Pos].num_invitados+nInvitadosConectados;
 			
 		}
 
@@ -558,11 +558,28 @@ void *AtenderCliente (void *socket)
 
 
 
-else if (codigo==6) //peticion de aceptar o rechazar una invitacion de partida
+else if (codigo==6) //peticion de aceptar o declinar una invitacion de partida
 		{
-			
+			int n=0;
+			char nombre[20];
+			int num_jug;
+			p=strtok(NULL, "/");
+			num_jug=atoi(p);
+			p=strtok(NULL, "/");
+			strcpy (nombre, p);
+			Partida partidA;
+			partidA.ID=IDpartida;
+			int sockk=DameSocket(&miLista,nombre);
+			p=strtok(NULL, "/");
+			if (strcmp(p, "ACEPTADO")==0)
+			{
+				int anadir_amigo = PonJugadorPartida(&partidA,nombre,sockk);
+				sprintf(respuesta, "7/%s/%d/ACEPTADO", nombre, num_jug);
+			}
+			else
+				sprintf(respuesta, "7/%s/%dRECHAZADO", nombre, num_jug);	
 		}
-			
+		
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
 		
 		if (codigo !=0)
@@ -630,3 +647,4 @@ int main(int argc, char *argv[])
 		i=i+1;
 	}
 }
+
