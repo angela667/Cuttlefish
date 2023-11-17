@@ -152,3 +152,17 @@ C:\Users\angel\Downloads\Proyecto_SO-3\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.
 C:\Users\angel\Downloads\Proyecto_SO-3\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.CoreCompileInputs.cache
 C:\Users\angel\Downloads\Proyecto_SO-3\Proyecto_V1\obj\Debug\Proyecto_V1.exe
 C:\Users\angel\Downloads\Proyecto_SO-3\Proyecto_V1\obj\Debug\Proyecto_V1.pdb
+C:\Proyecto-SO\Proyecto_V1\bin\Debug\Proyecto_V1.exe.config
+C:\Proyecto-SO\Proyecto_V1\bin\Debug\Proyecto_V1.exe
+C:\Proyecto-SO\Proyecto_V1\bin\Debug\Proyecto_V1.pdb
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.AssemblyReference.cache
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.Interfaz.resources
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.LogIn.resources
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.SignIn.resources
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.Historial.resources
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.Minigame.resources
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.Properties.Resources.resources
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.GenerateResource.cache
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.CoreCompileInputs.cache
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.exe
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.pdb

@@ -13,7 +13,9 @@ int contador = 0;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 int i, j;
 int sockets[100];
-int puerto = 5065;
+int puerto = 5085;
+char host[30] = "localhost";
+char contrasql[30] = "mysql";
 
 typedef struct{
 	char nombre[20];
@@ -32,6 +34,12 @@ typedef struct{
 	int respuesta;
 	int num_invitados;
 }Partida;
+
+
+typedef Partida partidas[100];
+
+ListaConectados miLista;
+partidas miPartidas;
 
 int PonConectados(ListaConectados *lista, char nombre[20], int socket)
 {
@@ -194,7 +202,6 @@ void DameJugadoresPartida (Partida partida,char conectados[300])
 		sprintf(conectados,"%s/%s",conectados,partida.conectados[i].nombre);
 }
 
-typedef Partida partidas[100];
 
 void Inicializar_Tabla_Partidas(partidas Tabla)
 {
@@ -288,14 +295,11 @@ int EliminarPartidaID(partidas Tabla, int ID)
 
 void *AtenderCliente (void *socket)
 {
-	ListaConectados miLista;
-	partidas miPartidas;
+
 	int sock_conn;
 	int *s;
 	s= (int *) socket;
 	sock_conn= *s;
-	
-	//int socket_conn = * (int *) socket;
 	
 	char peticion[512];
 	char respuesta[512];
@@ -340,7 +344,7 @@ void *AtenderCliente (void *socket)
 			int res = PonConectados(&miLista, Usuario,sock_conn);
 		}
 		
-		else if (codigo ==0)
+		else if (codigo ==0||ret <= 0)
 		{//petici?n de desconexi?n
 			int res = EliminarConectado(&miLista, Usuario);
 			terminar=1;
@@ -348,7 +352,7 @@ void *AtenderCliente (void *socket)
 		
 		if (codigo ==1) { //SIGN UP
 			MYSQL *conn = mysql_init(NULL);
-			conn = mysql_real_connect(conn, "localhost", "root", "mysqlmysql", "CuttlefishBBDD", 0, NULL, 0);
+			conn = mysql_real_connect(conn, host, "root", contrasql, "CuttlefishBBDD", 0, NULL, 0);
 			
 			if (conn == NULL){
 				printf("Error al conectar con la base de datos.\n");
@@ -402,7 +406,7 @@ void *AtenderCliente (void *socket)
 		else if (codigo ==2){ //LOG IN
 			// Conecta con la base de datos
 			MYSQL *conn = mysql_init(NULL);
-			conn = mysql_real_connect(conn, "localhost", "root", "mysqlmysql", "CuttlefishBBDD", 0, NULL, 0);
+			conn = mysql_real_connect(conn, host, "root", contrasql, "CuttlefishBBDD", 0, NULL, 0);
 			if (conn == NULL){
 				printf("Error al conectar con la base de datos.\n");
 				sprintf (respuesta,"2/Error al conectar con la base de datos.\n");
@@ -447,7 +451,7 @@ void *AtenderCliente (void *socket)
 		
 		else if (codigo == 3){
 			MYSQL *conn = mysql_init(NULL);
-			conn = mysql_real_connect(conn, "localhost", "root", "mysqlmysql", "CuttlefishBBDD", 0, NULL, 0);
+			conn = mysql_real_connect(conn, host, "root", contrasql, "CuttlefishBBDD", 0, NULL, 0);
 			
 			if (conn == NULL){
 				printf("Error al conectar con la base de datos.\n");
@@ -545,7 +549,7 @@ void *AtenderCliente (void *socket)
 				}
 				p = strtok( NULL, "/");
 			}
-			
+			respuesta[0] = '\0';
 			sprintf(respuesta,"%s/%d",respuesta,nInvitadosConectados);
 			strcat(respuesta,"/");
 			strcat(respuesta,invitadosConectados);
@@ -607,6 +611,7 @@ else if (codigo==6) //peticion de aceptar o declinar una invitacion de partida
 	// Se acabo el servicio para este cliente
 	close(sock_conn); 
 }
+
 int main(int argc, char *argv[])
 {
 	ListaConectados miLista;
