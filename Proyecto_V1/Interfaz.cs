@@ -22,26 +22,24 @@ namespace Proyecto_V1
         public string mensaje_invitados;
         bool connected = false;
         bool registrado = false;
-        bool lobby = true;
         int contador = 0;
         public string username;
         string nombre;
 
-        //VALORS IMPORTANTS PER A CONNEXIO
-        //              LOCAL
-        //         "192.168.56.102"
+        //VALORS PER RECORDAR-ME DE LES IP I PORTS
+        //string IPaddloc = "192.168.56.102";
+        //int puertoloc = 5055;
+        //string IPaddshiv = "10.4.119.5";
+        //int puertoshiv = 50085;
+        //VALORS PER RECORDAR-ME DE LES IP I PORTS
 
-        //             GRIGORY 
-        //          "10.211.55.5"
-
-        //              SHIVA
-        //          "10.4.119.5"
-        //              50085
+        //string IPaddlocG = 10.211.55.5
+        // 10.4.119.5
 
 
         //DEFINIM UNA RUTA IP I PORT
-        string IPadd = "192.168.56.102";
-        int puerto = 5085;
+        string IPadd = "10.211.55.5";
+        int puerto = 5065;
 
 
 
@@ -85,15 +83,7 @@ namespace Proyecto_V1
                         {
                             username = verify[1];
                             registrado = true;
-                            SELECT.Visible = true;
-                            NEXT.Visible = true;
-                            PREVIOUS.Visible = true;
-                            ENVIAR.Visible = true;
-                            pictureBox2.Visible = true;
-                            LabelIntro.Visible = true;
-                            pictureBox1.Image = Image.FromFile("FONDO5.png");
-                            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-                            pictureBox2.Image = this.images[this.contador];
+                            
                         }
                         MessageBox.Show(mensaje);
 
@@ -107,19 +97,7 @@ namespace Proyecto_V1
                         {
                             username = verify[3].Split('.')[0];
                             registrado = true;
-                            SELECT.Visible = true;
-                            NEXT.Visible = true;
-                            PREVIOUS.Visible = true;
-                            ENVIAR.Visible = true;
-                            pictureBox2.Visible = true;
-                            LabelIntro.Visible = true;
-                            pictureBox1.Image = Image.FromFile("FONDO5.png");
-                            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-                            pictureBox2.Image = this.images[this.contador];
-                            SELECT.Enabled = true;
-                            NEXT.Enabled = true;
-                            PREVIOUS.Enabled = true;
-
+                           
                         }
                         MessageBox.Show(mensaje);
                         break;
@@ -130,6 +108,7 @@ namespace Proyecto_V1
                         break;
 
                     case 4:      // LLISTA DE CONNECTATS
+                        CONNAMES.Visible = true;
                         int rowcount = Convert.ToInt32(trozos[1]);
                         CONNAMES.RowCount = rowcount;
                         CONNAMES.ColumnCount = 1;
@@ -155,6 +134,7 @@ namespace Proyecto_V1
                         else //respuesta para los invitados
                         {
                             MessageBox.Show("Bienvenido invitado");
+
                         }
 
                         break;
@@ -167,89 +147,65 @@ namespace Proyecto_V1
             }
         }
 
-        /*public int crearPartida()
-        {
-            if (anadir_partida.Count() == 0)
-            {
-                return -1;
-            }
-            else
-            {
-                var random = new Random();
-                int partida = random.Next();
-                mensaje_invitados = "5/" + partida + "/" + username + "/";
-
-                int i;
-                for (i = 0; i < anadir_partida.Count(); i++)
-                {
-                    mensaje_invitados = mensaje_invitados + anadir_partida[i] + "/";
-                }
-                
-                string mensaje = mensaje_invitados;
-                // Enviamos al servidor el nombre tecleado
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                server.Send(msg);
-                this.Close();
-                return 0;
-            }
-
-        }*/
 
         public void Form1_Load(object sender, EventArgs e)
         {
-            
+            // Set the form's border style to FixedSingle.
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+            //this.Size = new Size(1280, 720);
+            this.WindowState = FormWindowState.Maximized;
+            this.MaximizeBox = true;
+           
+            // Create an Image object.
             Image image = Image.FromFile("FONDO.png");
+
+            // Display the image.
             pictureBox1.Image = image;
             pictureBox1.Dock = DockStyle.Fill;
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-
+            CONNAMES.Visible = true;
             SELECT.Visible = false;
             NEXT.Visible = false;
             PREVIOUS.Visible = false;
-            ENVIAR.Visible = false;
+            ENVIAR.Visible = true;
+
+            LabelIntro.Visible = false;
             pictureBox2.Visible = false;
-            LabelIntro.Visible = false; 
+            holi.Visible = true;
+
             miPersonaje.Visible = false;
             personajeRival.Visible = false;
 
+            connect.Location = new System.Drawing.Point(680, 500);
+            connect.Location = new System.Drawing.Point(680, 500);
             disconnect.Visible = false;
-            if(registrado == true)
+            //historial.Visible = false;
+
+            this.KeyPreview = true;
+
+            if ((registrado == true) && (connected == true))
             {
+                //pictureBox1.Visible = false;
+                button1.Visible = false;
+                button2.Visible = false;
+                disconnect.Visible = false;
+                //connect.Visible = false;
+                historial.Visible = false;
+                //button6.Visible = false;
+
+                historial.Visible = true;
+
                 SELECT.Visible = true;
                 NEXT.Visible = true;
                 PREVIOUS.Visible = true;
-                ENVIAR.Visible = true;
-                pictureBox2.Visible = true;
                 LabelIntro.Visible = true;
-                pictureBox1.Image = Image.FromFile("FONDO5.png");
+                pictureBox2.Visible = true;
+                ENVIAR.Visible = true;
+                //pictureBox1.Image = Image.FromFile("FONDO5.png");
                 pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
                 pictureBox2.Image = this.images[this.contador];
             }
-            if (lobby == false)
-            {
-                SELECT.Visible = false;
-                NEXT.Visible = false;
-                PREVIOUS.Visible = false;
-                LabelIntro.Visible = false;
-                pictureBox2.Visible = false;
-
-
-                miPersonaje.Visible = true;
-                miPersonaje.BackColor = Color.Red;
-                personajeRival.Visible = true;
-                personajeRival.BackColor = Color.Blue;
-
-                pictureBox1.Image = Image.FromFile("FONDO4.png");
-
-                miPersonaje.SizeMode = PictureBoxSizeMode.Zoom;
-                personajeRival.SizeMode = PictureBoxSizeMode.Zoom;
-                miPersonaje.Image = this.images[this.contador];
-                if (this.contador >= this.images.Length)
-                {
-                    this.contador = 0;
-                }
-            }
-            
             if (connected == true)
             {
                 connect.Visible = false;
@@ -272,6 +228,8 @@ namespace Proyecto_V1
             ThreadStart ts = delegate { PonerEnMarchaFormulario(); };
             Thread T = new Thread(ts);
             T.Start();
+
+            registrado = true;
     }
 
         private void button1_MouseEnter(object sender, EventArgs e)
@@ -291,6 +249,7 @@ namespace Proyecto_V1
             ThreadStart ts = delegate { PonerEnMarchaFormulario2(); };
             Thread T = new Thread(ts);
             T.Start();
+            registrado = true;
         }
         private void button2_MouseEnter(object sender, EventArgs e)
         {
@@ -356,12 +315,10 @@ namespace Proyecto_V1
                 atender = new Thread(ts);
                 atender.Start();
                 connected = true;
-
                 if (connected == true)
                 {
                     connect.Visible = false;
                     disconnect.Visible = true;
-                    holi.BackColor = Color.Green;
                 }
 
             }
@@ -462,12 +419,17 @@ namespace Proyecto_V1
 
         private void SELECT_Click(object sender, EventArgs e)
         {
-            lobby = false;
+            historial.Visible = false;
             SELECT.Visible = false;
             NEXT.Visible = false;
             PREVIOUS.Visible = false;
             LabelIntro.Visible = false;
             pictureBox2.Visible = false;
+            holi.Visible = false;
+            //label1.Visible = false;
+            //contLbl.Visible = false;
+            connect.Visible = false;
+            CONNAMES.Visible = false;
 
 
             miPersonaje.Visible = true;
@@ -488,18 +450,13 @@ namespace Proyecto_V1
 
         }
 
-        public string Darinvitados()
-        {
-            return mensaje_invitados;
-        }
-
         private void ENVIAR_Click(object sender, EventArgs e)
         {
             //int InvitarPartida = crearPartida();
             
                 var random = new Random();
                 int partida = random.Next();
-                mensaje_invitados = "5/" + partida + "/" + username + "/";
+                mensaje_invitados = "5/" + partida + "/" + username + "/" + nombre + "/";
 
                 int i;
                 for (i = 0; i < anadir_partida.Count(); i++)
@@ -521,6 +478,22 @@ namespace Proyecto_V1
                 nombre = row.Cells[0].Value.ToString();
                 MessageBox.Show("The selected name is: " + nombre);
             }
+        }
+
+        private void ACCEPT_Click(object sender, EventArgs e)
+        {
+            string mensaje = "6/" + username + "/" + "ACEPTADO" + "/";
+            // Enviamos al servidor el nombre tecleado
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+        }
+
+        private void DECLINE_Click(object sender, EventArgs e)
+        {
+            string mensaje = "6/" + username + "/" + "RECHAZADO" + "/";
+            // Enviamos al servidor el nombre tecleado
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
         }
     }
 }
