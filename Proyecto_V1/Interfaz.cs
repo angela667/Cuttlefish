@@ -25,7 +25,9 @@ namespace Proyecto_V1
         int contador = 0;
         public string username;
         string nombre;
-
+        int IDpartida;
+        public static Interfaz instance;
+        
         //VALORS PER RECORDAR-ME DE LES IP I PORTS
         //string IPaddloc = "192.168.56.102";
         //int puertoloc = 5055;
@@ -59,10 +61,22 @@ namespace Proyecto_V1
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
             miPersonaje.Focus();
+            instance = this;
             
+        }
+        private void ActualizarInterfazUsuario(string estado)
+        {
+            //Verifiquem si és necessari invoke
+            if (this.InvokeRequired)
+            {
+                DelegadoParaPonerTexto delegado = new DelegadoParaPonerTexto(ActualizarInterfazUsuario);
+                this.Invoke(delegado, new object[] { estado });
+            }
+           
         }
         private void AtenderServidor()
         {
+
             while (true)
             {
                 //Recibimos mensaje del servidor
@@ -72,7 +86,7 @@ namespace Proyecto_V1
                 int codigo = Convert.ToInt32(trozos[0]);
                 string mensaje;
                 string[] verify;
-
+                
                 switch (codigo)
                 {
                     case 1:  // SIGN IN
@@ -83,6 +97,7 @@ namespace Proyecto_V1
                         {
                             username = verify[1];
                             registrado = true;
+                            ActualizarInterfazUsuario("Usuario registrado:" + mensaje);
                             
                         }
                         MessageBox.Show(mensaje);
@@ -125,7 +140,7 @@ namespace Proyecto_V1
                     case 5: //INVITAR A OTRO USUARIO
 
                         int quien = Convert.ToInt32(trozos[1]);
-                        int partida = Convert.ToInt32(trozos[2]);
+                        IDpartida = Convert.ToInt32(trozos[2]);
 
                         if (quien == 0)// respuesta para el anfitrion
                         {
@@ -482,7 +497,7 @@ namespace Proyecto_V1
 
         private void ACCEPT_Click(object sender, EventArgs e)
         {
-            string mensaje = "6/" + username + "/" + "ACEPTADO" + "/";
+            string mensaje = "6/" + username + "/" + "ACEPTADO" + "/" + IDpartida + "/";
             // Enviamos al servidor el nombre tecleado
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
@@ -490,10 +505,21 @@ namespace Proyecto_V1
 
         private void DECLINE_Click(object sender, EventArgs e)
         {
-            string mensaje = "6/" + username + "/" + "RECHAZADO" + "/";
+            string mensaje = "6/" + username + "/" + "RECHAZADO" + "/" + IDpartida + "/";
             // Enviamos al servidor el nombre tecleado
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            chat Chat = new chat();
+        }
+       public void enviarMensaje()
+        {
+            string peticion = "8-" + IDpartida + "-" + nombre +": " + chat.instance.text.Text;
+            byte[] enviar = System.Text.Encoding.ASCII.GetBytes(peticion);
+            server.Send(enviar);
         }
     }
 }

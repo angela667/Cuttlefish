@@ -26,8 +26,8 @@ typedef struct{
 } ListaConectados;
 
 typedef struct{
-	Conectado conectados[5];
-	int num;
+	Conectado conectados[2];
+	int num; // numero jugadores partida
 	int ID;
 	int respuesta;
 	int num_invitados;
@@ -500,23 +500,27 @@ void *AtenderCliente (void *socket)
 			IDpartida= atoi(p);		
 			p = strtok( NULL, "/");
 			strcpy (anfitrion, p);
-			// Ya tenemos el nombre
-			Partida partidA;
-			partidA.ID=IDpartida;
-				
-			
-			int sockk=DameSocket(&miLista,anfitrion);
-			int anadir_anfitrion= PonJugadorPartida(&partidA,anfitrion,sockk);
-
-			
-			PonPartida(miPartidas,partidA);
-			int Pos= DamePosicionPartidaID(miPartidas,IDpartida);
-			printf("El anfitrion es: %s en la partida número: %d en la posicion: %d\n",partidA.conectados[0].nombre,partidA.ID,partidA.num);
-			printf("Número de jugadores en la partida: %d = %d\n",partidA.ID,partidA.num);
-			
 			p = strtok( NULL, "/");
+			strcpy (invitado, p);
+			// Ya tenemos el nombre
+			printf("Estoy en 5\n");
 			
-			int nInvitadosConectados=0;
+			int IndicePartida = DamePosicionPartidaID(&miPartidas,IDpartida);
+			if(IndicePartida == -1)
+			{
+				Partida partidA;
+				partidA.ID=IDpartida;
+					
+				int sockk=DameSocket(&miLista,anfitrion);
+				int anadir_anfitrion= PonJugadorPartida(&partidA,anfitrion,sockk);
+			
+				PonPartida(miPartidas,partidA);	
+				
+				IndicePartida = DamePosicionPartidaID(miPartidas,IDpartida);
+				
+				printf("El anfitrion es: %s en la partida número: %d en la posicion: %d\n",partidA.conectados[0].nombre,partidA.ID, IndicePartida);
+			
+			/*int nInvitadosConectados=0;
 			char invitadosConectados[100];
 			char invC[100];
 			while (p!=NULL)
@@ -550,14 +554,22 @@ void *AtenderCliente (void *socket)
 			sprintf(respuesta,"%s/%d",respuesta,nInvitadosConectados);
 			strcat(respuesta,"/");
 			strcat(respuesta,invitadosConectados);
-			if (strcmp(anfitrion, Usuario)==0)
-			{
+			*/
+
+				char invitacion[512]; 
+				sprintf(invitacion,"5/1/%d/%s",IDpartida, anfitrion);
+				int sockk_invitado=DameSocket(&miLista,invitado);
+				
+				write(sockk_invitado,invitacion,strlen(invitacion));
+			
 				sprintf(respuesta,"5/0/%d",IDpartida);
+			
+				printf("Respuesta que se envia al anfitrion:%s\n",respuesta);
+			
+				miPartidas[IndicePartida].num_invitados++;
+			
+				printf("En la partida: %d hay un total de %d jugadores\n",partidA.ID,partidA.num);
 			}
-			else
-				sprintf(respuesta,"5/1/%d",IDpartida);
-			printf("Respuesta que se envia al anfitrion:%s\n",respuesta);
-			miPartidas[Pos].num_invitados=miPartidas[Pos].num_invitados+nInvitadosConectados;
 			
 		}
 
@@ -569,24 +581,45 @@ else if (codigo==6) //peticion de aceptar o declinar una invitacion de partida
 		{
 			int n=0;
 			char nombre[20];
+			int IDpartidA;
 			p=strtok(NULL, "/");
 			strcpy (nombre, p);
-			Partida partidA;
-			partidA.ID=IDpartida;
-			int sockk=DameSocket(&miLista,nombre);
 			p=strtok(NULL, "/");
 			if (strcmp(p, "ACEPTADO")==0)
 			{
-				int anadir_amigo = PonJugadorPartida(&partidA,nombre,sockk);
+				p=strtok(NULL, "/");
+				IDpartidA = atoi(p);
+				int Pos = DamePosicionPartidaID(miPartidas,IDpartidA);
+				int anadir_amigo = PonJugadorPartida(&miPartidas[Pos],nombre,sock_conn);
 				sprintf(respuesta, "6/%s/ACEPTADO", nombre);
 			}
 			else
 				sprintf(respuesta, "6/%s/RECHAZADO", nombre);			
 		}
 		
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+
+else if (codigo == 8) { //reenviar mensaje
+            char mensaje[200];
+            p = strtok(NULL, "-");
+            if (p != NULL) {
+                strcpy(mensaje, p);
+                char usuario[200];
+                p = strtok(NULL, "-");
+                if (p != NULL) {
+                    strcpy(usuario, p);
+                    sprintf(respuesta, "10-%s-%s", mensaje, usuario);
+                    printf("Mensaje: %s\n", respuesta);
+                    int j;
+                    for (j = 0; j < miLista.num; j++)
+                    {
+                        write(sockets[j], respuesta, strlen(respuesta));
+                    }
+                }
+            }
+        }	
 		
-		if (codigo !=0)
+if (codigo !=0)
 		{
 			printf ("Respuesta: %s\n", respuesta);
 			// Enviamos respuesta
@@ -650,4 +683,5 @@ int main(int argc, char *argv[])
 		i=i+1;
 	}
 }
+
 
