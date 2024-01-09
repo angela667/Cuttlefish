@@ -11,6 +11,10 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Diagnostics.Eventing.Reader;
 using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Collections;
+using System.Xml.Linq;
 
 namespace Proyecto_V1
 {
@@ -22,21 +26,25 @@ namespace Proyecto_V1
         public string mensaje_invitados;
         bool connected = false;
         bool registrado = false;
+        bool lobby = true;
         int contador = 0;
         public string username;
         string nombre;
-        int IDpartida;
-        public static Interfaz instance;
-        
-        //VALORS PER RECORDAR-ME DE LES IP I PORTS
-        //string IPaddloc = "192.168.56.102";
-        //int puertoloc = 5055;
-        //string IPaddshiv = "10.4.119.5";
-        //int puertoshiv = 50085;
-        //VALORS PER RECORDAR-ME DE LES IP I PORTS
+        int mi_movimiento = 0;
+        int ganador = 2;
 
-        //string IPaddlocG = 10.211.55.5
-        // 10.4.119.5
+
+
+        //VALORS IMPORTANTS PER A CONNEXIO
+        //              LOCAL
+        //         "192.168.56.102"
+
+        //             GRIGORY 
+        //          "10.211.55.5"
+
+        //              SHIVA
+        //          "10.4.119.5"
+        //              50085
 
 
         //DEFINIM UNA RUTA IP I PORT
@@ -60,23 +68,12 @@ namespace Proyecto_V1
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
-            miPersonaje.Focus();
-            instance = this;
-            
-        }
-        private void ActualizarInterfazUsuario(string estado)
-        {
-            //Verifiquem si és necessari invoke
-            if (this.InvokeRequired)
-            {
-                DelegadoParaPonerTexto delegado = new DelegadoParaPonerTexto(ActualizarInterfazUsuario);
-                this.Invoke(delegado, new object[] { estado });
-            }
-           
+            //miPersonaje.Focus();
+            //this.Focus();
+
         }
         private void AtenderServidor()
         {
-
             while (true)
             {
                 //Recibimos mensaje del servidor
@@ -86,7 +83,7 @@ namespace Proyecto_V1
                 int codigo = Convert.ToInt32(trozos[0]);
                 string mensaje;
                 string[] verify;
-                
+
                 switch (codigo)
                 {
                     case 1:  // SIGN IN
@@ -97,8 +94,15 @@ namespace Proyecto_V1
                         {
                             username = verify[1];
                             registrado = true;
-                            ActualizarInterfazUsuario("Usuario registrado:" + mensaje);
-                            
+                            SELECT.Visible = true;
+                            NEXT.Visible = true;
+                            PREVIOUS.Visible = true;
+                            ENVIAR.Visible = true;
+                            pictureBox2.Visible = true;
+                            LabelIntro.Visible = true;
+                            pictureBox1.Image = Image.FromFile("FONDO4.png");
+                            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+                            pictureBox2.Image = this.images[this.contador];
                         }
                         MessageBox.Show(mensaje);
 
@@ -107,12 +111,26 @@ namespace Proyecto_V1
                     case 2:  //LOG IN
 
                         mensaje = trozos[1].Split('\0')[0];
-                        verify = mensaje.Split(' ');
-                        if (verify[0] == "Sesion")
+                        if (trozos[1].Split(' ')[0] == "Sesion")
                         {
-                            username = verify[3].Split('.')[0];
+                            username = trozos[2];
                             registrado = true;
-                           
+                            SELECT.Visible = true;
+                            NEXT.Visible = true;
+                            PREVIOUS.Visible = true;
+                            ENVIAR.Visible = true;
+                            pictureBox2.Visible = true;
+                            LabelIntro.Visible = true;
+                            pictureBox1.Image = Image.FromFile("FONDO4.png");
+                            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+                            pictureBox2.Image = this.images[this.contador];
+                            SELECT.Enabled = true;
+                            NEXT.Enabled = true;
+                            PREVIOUS.Enabled = true;
+                            labelChat.Visible = true;
+                            NombreChat.Visible = true;
+                            textoChat.Visible = true;
+
                         }
                         MessageBox.Show(mensaje);
                         break;
@@ -123,7 +141,6 @@ namespace Proyecto_V1
                         break;
 
                     case 4:      // LLISTA DE CONNECTATS
-                        CONNAMES.Visible = true;
                         int rowcount = Convert.ToInt32(trozos[1]);
                         CONNAMES.RowCount = rowcount;
                         CONNAMES.ColumnCount = 1;
@@ -140,7 +157,7 @@ namespace Proyecto_V1
                     case 5: //INVITAR A OTRO USUARIO
 
                         int quien = Convert.ToInt32(trozos[1]);
-                        IDpartida = Convert.ToInt32(trozos[2]);
+                        int partida = Convert.ToInt32(trozos[2]);
 
                         if (quien == 0)// respuesta para el anfitrion
                         {
@@ -149,7 +166,6 @@ namespace Proyecto_V1
                         else //respuesta para los invitados
                         {
                             MessageBox.Show("Bienvenido invitado");
-
                         }
 
                         break;
@@ -158,69 +174,142 @@ namespace Proyecto_V1
 
 
                         break;
+
+                    case 7://MENSAJE CHAT
+                        mensaje = trozos[1].Split('\0')[0];
+
+                        string usuario = trozos[2];
+                        string texto= ">>" + usuario + "-" + mensaje + "\n";
+                        labelChat.Text = texto;
+
+                        break;
+
+                    case 8: //MOVIMIENTO DEL RIVAL
+                        int movimineto = Convert.ToInt32(trozos[1]);
+                        switch (codigo)
+                        {
+                            case 1: //PIEDRA RIVAL
+                                if(mi_movimiento == 1) //MI PIEDRA
+                                {
+                                    ganador = 0;
+                                    Resultado();
+                                }
+                                else if(mi_movimiento == 2) //MI PAPEL
+                                {
+                                    ganador = 1;
+                                    Resultado();
+                                }
+                                else // MI TIJERA
+                                {
+                                    ganador = -1;
+                                    Resultado();
+                                }
+                            break;
+
+                            case 2: //PAPEL RIVAL
+                                if (mi_movimiento == 1) //MI PIEDRA
+                                {
+                                    ganador = -1;
+                                    Resultado();
+                                }
+                                else if (mi_movimiento == 2) //MI PAPEL
+                                {
+                                    ganador = 0;
+                                    Resultado();
+                                }
+                                else // MI TIJERA
+                                {
+                                    ganador = 1;
+                                    Resultado();
+                                }
+                                break;
+
+                            case 3: //TIJERA RIVAL
+                                if (mi_movimiento == 1) //MI PIEDRA
+                                {
+                                    ganador = 1;
+                                    Resultado();
+                                }
+                                else if (mi_movimiento == 2) //MI PAPEL
+                                {
+                                    ganador = -1;
+                                    Resultado();
+                                }
+                                else // MI TIJERA
+                                {
+                                    ganador = 0;
+                                    Resultado();
+                                }
+                                break;
+                        }
+                        break;
+
                 }
             }
         }
 
-
         public void Form1_Load(object sender, EventArgs e)
         {
-            // Set the form's border style to FixedSingle.
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-
-            //this.Size = new Size(1280, 720);
-            this.WindowState = FormWindowState.Maximized;
-            this.MaximizeBox = true;
-           
-            // Create an Image object.
+            
             Image image = Image.FromFile("FONDO.png");
-
-            // Display the image.
             pictureBox1.Image = image;
             pictureBox1.Dock = DockStyle.Fill;
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            CONNAMES.Visible = true;
+
             SELECT.Visible = false;
             NEXT.Visible = false;
             PREVIOUS.Visible = false;
-            ENVIAR.Visible = true;
-
-            LabelIntro.Visible = false;
+            ENVIAR.Visible = false;
             pictureBox2.Visible = false;
-            holi.Visible = true;
-
+            LabelIntro.Visible = false; 
             miPersonaje.Visible = false;
             personajeRival.Visible = false;
+            pictureBox3.Visible = false;
+            pictureBox4.Visible = false;
+            pictureBox5.Visible = false;
 
-            connect.Location = new System.Drawing.Point(680, 500);
-            connect.Location = new System.Drawing.Point(680, 500);
             disconnect.Visible = false;
-            //historial.Visible = false;
-
-            this.KeyPreview = true;
-
-            if ((registrado == true) && (connected == true))
+            if(registrado == true)
             {
-                //pictureBox1.Visible = false;
-                button1.Visible = false;
-                button2.Visible = false;
-                disconnect.Visible = false;
-                //connect.Visible = false;
-                historial.Visible = false;
-                //button6.Visible = false;
-
-                historial.Visible = true;
-
                 SELECT.Visible = true;
                 NEXT.Visible = true;
                 PREVIOUS.Visible = true;
-                LabelIntro.Visible = true;
-                pictureBox2.Visible = true;
                 ENVIAR.Visible = true;
-                //pictureBox1.Image = Image.FromFile("FONDO5.png");
+                pictureBox2.Visible = true;
+                LabelIntro.Visible = true;
+                labelChat.Visible = true;
+                NombreChat.Visible = true;
+                textoChat.Visible = true;
+
+                pictureBox1.Image = Image.FromFile("FONDO4.png");
                 pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
                 pictureBox2.Image = this.images[this.contador];
             }
+            if (lobby == false)
+            {
+                SELECT.Visible = false;
+                NEXT.Visible = false;
+                PREVIOUS.Visible = false;
+                LabelIntro.Visible = false;
+                pictureBox2.Visible = false;
+
+
+                miPersonaje.Visible = true;
+                miPersonaje.BackColor = Color.Red;
+                personajeRival.Visible = true;
+                personajeRival.BackColor = Color.Blue;
+
+                pictureBox1.Image = Image.FromFile("FONDO4.png");
+
+                miPersonaje.SizeMode = PictureBoxSizeMode.Zoom;
+                personajeRival.SizeMode = PictureBoxSizeMode.Zoom;
+                miPersonaje.Image = this.images[this.contador];
+                if (this.contador >= this.images.Length)
+                {
+                    this.contador = 0;
+                }
+            }
+            
             if (connected == true)
             {
                 connect.Visible = false;
@@ -243,8 +332,6 @@ namespace Proyecto_V1
             ThreadStart ts = delegate { PonerEnMarchaFormulario(); };
             Thread T = new Thread(ts);
             T.Start();
-
-            registrado = true;
     }
 
         private void button1_MouseEnter(object sender, EventArgs e)
@@ -264,7 +351,6 @@ namespace Proyecto_V1
             ThreadStart ts = delegate { PonerEnMarchaFormulario2(); };
             Thread T = new Thread(ts);
             T.Start();
-            registrado = true;
         }
         private void button2_MouseEnter(object sender, EventArgs e)
         {
@@ -330,10 +416,12 @@ namespace Proyecto_V1
                 atender = new Thread(ts);
                 atender.Start();
                 connected = true;
+
                 if (connected == true)
                 {
                     connect.Visible = false;
                     disconnect.Visible = true;
+                    holi.BackColor = Color.Green;
                 }
 
             }
@@ -345,15 +433,6 @@ namespace Proyecto_V1
             }
             
 
-        }
-        private void button4_MouseEnter(object sender, EventArgs e)
-        {
-            button2.Size = new Size((int)(button1.Width * 1.2f), (int)(button1.Height * 1.2f));
-        }
-
-        private void button4_MouseLeave(object sender, EventArgs e)
-        {
-            button2.Size = new Size((int)(button1.Width / 1.2f), (int)(button1.Height / 1.2f));
         }
 
         private void PonerEnMarchaFormulario()
@@ -411,40 +490,21 @@ namespace Proyecto_V1
         {
             disconnect.Size = new Size((int)(disconnect.Width / 1.2f), (int)(disconnect.Height / 1.2f));
         }
-        /*
-        private void Mover_Personaje(object sender, KeyEventArgs e)
-        {
-            int Distancia = 10;
-            switch (e.KeyCode)
-            {
-                case Keys.Up:
-                    miPersonaje.Top -= Distancia;
-                    break;
-                case Keys.Down:
-                    miPersonaje.Top += Distancia;
-                    break;
-                case Keys.Left:
-                    miPersonaje.Left -= Distancia;
-                    break;
-                case Keys.Right:
-                    miPersonaje.Left += Distancia;
-                    break;
-            }
-        }*/
 
         private void SELECT_Click(object sender, EventArgs e)
         {
-            historial.Visible = false;
+            lobby = false;
             SELECT.Visible = false;
             NEXT.Visible = false;
             PREVIOUS.Visible = false;
             LabelIntro.Visible = false;
             pictureBox2.Visible = false;
-            holi.Visible = false;
-            //label1.Visible = false;
-            //contLbl.Visible = false;
-            connect.Visible = false;
-            CONNAMES.Visible = false;
+            pictureBox3.Visible = true;
+            pictureBox3.Image = Image.FromFile("PIDRA.png");
+            pictureBox4.Visible = true;
+            pictureBox4.Image = Image.FromFile("PAPEL.png");
+            pictureBox5.Visible = true;
+            pictureBox5.Image = Image.FromFile("TIJERA.png");
 
 
             miPersonaje.Visible = true;
@@ -465,13 +525,35 @@ namespace Proyecto_V1
 
         }
 
+        public void Resultado()
+        {
+            if(ganador == -1) // He perdido
+            {
+                MessageBox.Show("HAS PERDIDO");
+            }
+            else if (ganador == 0) // Hemos empatado
+            {
+                MessageBox.Show("HABEIS EMPATADO");
+            }
+            else if (ganador == 1)// He ganado
+            {
+                MessageBox.Show("HAS GANADO");
+            }
+            ganador = 2;
+            mi_movimiento = 0;
+        }
+        public string Darinvitados()
+        {
+            return mensaje_invitados;
+        }
+
         private void ENVIAR_Click(object sender, EventArgs e)
         {
             //int InvitarPartida = crearPartida();
             
                 var random = new Random();
                 int partida = random.Next();
-                mensaje_invitados = "5/" + partida + "/" + username + "/" + nombre + "/";
+                mensaje_invitados = "5/" + partida + "/" + username + "/";
 
                 int i;
                 for (i = 0; i < anadir_partida.Count(); i++)
@@ -495,31 +577,55 @@ namespace Proyecto_V1
             }
         }
 
-        private void ACCEPT_Click(object sender, EventArgs e)
+        
+        private void label2_Click(object sender, EventArgs e)
         {
-            string mensaje = "6/" + username + "/" + "ACEPTADO" + "/" + IDpartida + "/";
-            // Enviamos al servidor el nombre tecleado
-            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-            server.Send(msg);
+
         }
 
-        private void DECLINE_Click(object sender, EventArgs e)
+        private void textoChat_KeyPress(object sender, KeyPressEventArgs e)
         {
-            string mensaje = "6/" + username + "/" + "RECHAZADO" + "/" + IDpartida + "/";
-            // Enviamos al servidor el nombre tecleado
-            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-            server.Send(msg);
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                string texto = textoChat.Text;
+                string chatNombre = NombreChat.Text;
+                if (texto != "")
+                {
+                    string mensajeChat = texto;
+
+                    string name = chatNombre;
+
+                    textoChat.Text = "";
+                    NombreChat.Text = "";
+                    string mensaje = "7/" + mensajeChat + "/" + name;
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                    server.Send(msg);
+                }
+            }
         }
 
-        private void button3_Click_1(object sender, EventArgs e)
+        private void pictureBox3_Click(object sender, EventArgs e)//PIEDRA
         {
-            chat Chat = new chat();
+            string mensaje = "8/1";
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+            mi_movimiento = 1;
         }
-       public void enviarMensaje()
+
+        private void pictureBox4_Click(object sender, EventArgs e)//PAPEL
         {
-            string peticion = "8-" + IDpartida + "-" + nombre +": " + chat.instance.text.Text;
-            byte[] enviar = System.Text.Encoding.ASCII.GetBytes(peticion);
-            server.Send(enviar);
+            string mensaje = "8/2";
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+            mi_movimiento = 2;
+        }
+
+        private void pictureBox5_Click(object sender, EventArgs e)//TIJERA
+        {
+            string mensaje = "8/3";
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+            mi_movimiento = 3;
         }
     }
 }

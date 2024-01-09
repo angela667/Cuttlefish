@@ -42,7 +42,10 @@ E:\uni\3R\Q5\SO\Proyecto_V1\Proyecto_V1\obj\Debug\Proyecto_V1.Minigame.resources
 \\Mac\Home\Desktop\Proyecto_V1\Proyecto_V1\bin\Debug\Proyecto_V1.exe
 \\Mac\Home\Desktop\Proyecto_V1\Proyecto_V1\bin\Debug\Proyecto_V1.pdb
 \\Mac\Home\Desktop\Proyecto_V1\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.AssemblyReference.cache
+\\Mac\Home\Desktop\Proyecto_V1\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.SuggestedBindingRedirects.cache
 \\Mac\Home\Desktop\Proyecto_V1\Proyecto_V1\obj\Debug\Proyecto_V1.Interfaz.resources
+\\Mac\Home\Desktop\Proyecto_V1\Proyecto_V1\obj\Debug\Proyecto_V1.Form2.resources
+\\Mac\Home\Desktop\Proyecto_V1\Proyecto_V1\obj\Debug\Proyecto_V1.Form3.resources
 \\Mac\Home\Desktop\Proyecto_V1\Proyecto_V1\obj\Debug\Proyecto_V1.Historial.resources
 \\Mac\Home\Desktop\Proyecto_V1\Proyecto_V1\obj\Debug\Proyecto_V1.Minigame.resources
 \\Mac\Home\Desktop\Proyecto_V1\Proyecto_V1\obj\Debug\Proyecto_V1.Properties.Resources.resources
@@ -149,36 +152,32 @@ C:\Users\angel\Downloads\Proyecto_SO-3\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.
 C:\Users\angel\Downloads\Proyecto_SO-3\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.CoreCompileInputs.cache
 C:\Users\angel\Downloads\Proyecto_SO-3\Proyecto_V1\obj\Debug\Proyecto_V1.exe
 C:\Users\angel\Downloads\Proyecto_SO-3\Proyecto_V1\obj\Debug\Proyecto_V1.pdb
-C:\PRUEBA\Cuttlefish\Proyecto_V1\bin\Debug\Proyecto_V1.exe.config
-C:\PRUEBA\Cuttlefish\Proyecto_V1\bin\Debug\Proyecto_V1.exe
-C:\PRUEBA\Cuttlefish\Proyecto_V1\bin\Debug\Proyecto_V1.pdb
-C:\PRUEBA\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.AssemblyReference.cache
-C:\PRUEBA\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.SuggestedBindingRedirects.cache
-C:\PRUEBA\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.Interfaz.resources
-C:\PRUEBA\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.LogIn.resources
-C:\PRUEBA\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.SignIn.resources
-C:\PRUEBA\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.Historial.resources
-C:\PRUEBA\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.Minigame.resources
-C:\PRUEBA\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.Properties.Resources.resources
-C:\PRUEBA\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.GenerateResource.cache
-C:\PRUEBA\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.CoreCompileInputs.cache
-C:\PRUEBA\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.exe
-C:\PRUEBA\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.pdb
-\\Mac\Home\Desktop\Proyecto_V1\Proyecto_V1\obj\Debug\Proyecto_V1.LogIn.resources
-\\Mac\Home\Desktop\Proyecto_V1\Proyecto_V1\obj\Debug\Proyecto_V1.SignIn.resources
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\bin\Debug\Proyecto_V1.exe.config
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\bin\Debug\Proyecto_V1.exe
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\bin\Debug\Proyecto_V1.pdb
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.AssemblyReference.cache
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.SuggestedBindingRedirects.cache
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\obj\Debug\Proyecto_V1.chat.resources
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\obj\Debug\Proyecto_V1.Interfaz.resources
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\obj\Debug\Proyecto_V1.LogIn.resources
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\obj\Debug\Proyecto_V1.SignIn.resources
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\obj\Debug\Proyecto_V1.Historial.resources
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\obj\Debug\Proyecto_V1.Minigame.resources
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\obj\Debug\Proyecto_V1.Properties.Resources.resources
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.GenerateResource.cache
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.CoreCompileInputs.cache
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\obj\Debug\Proyecto_V1.exe
-\\Mac\Home\Desktop\Proyecto_V1 2\Proyecto_V1\obj\Debug\Proyecto_V1.pdb
+C:\Proyecto-SO\Proyecto_V1\bin\Debug\Proyecto_V1.exe.config
+C:\Proyecto-SO\Proyecto_V1\bin\Debug\Proyecto_V1.exe
+C:\Proyecto-SO\Proyecto_V1\bin\Debug\Proyecto_V1.pdb
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.AssemblyReference.cache
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.Interfaz.resources
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.LogIn.resources
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.SignIn.resources
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.Historial.resources
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.Minigame.resources
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.Properties.Resources.resources
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.GenerateResource.cache
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.CoreCompileInputs.cache
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.exe
+C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.pdb
+\\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\bin\Debug\Proyecto_V1.exe.config
+\\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\bin\Debug\Proyecto_V1.exe
+\\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\bin\Debug\Proyecto_V1.pdb
+\\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.AssemblyReference.cache
+\\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.SuggestedBindingRedirects.cache
+\\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.Interfaz.resources
+\\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.LogIn.resources
+\\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.SignIn.resources
+\\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.Historial.resources
+\\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.Minigame.resources
+\\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.Properties.Resources.resources
+\\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.GenerateResource.cache
+\\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.CoreCompileInputs.cache
+\\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.exe
+\\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.pdb
