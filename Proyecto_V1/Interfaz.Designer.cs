@@ -319,12 +319,13 @@
             this.textoChat.Name = "textoChat";
             this.textoChat.Size = new System.Drawing.Size(196, 31);
             this.textoChat.TabIndex = 39;
+            this.textoChat.TextChanged += new System.EventHandler(this.textoChat_TextChanged);
             this.textoChat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textoChat_KeyPress);
             // 
             // labelChat
             // 
             this.labelChat.AutoSize = true;
-            this.labelChat.Location = new System.Drawing.Point(1650, 375);
+            this.labelChat.Location = new System.Drawing.Point(1757, 381);
             this.labelChat.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelChat.Name = "labelChat";
             this.labelChat.Size = new System.Drawing.Size(103, 25);
@@ -339,6 +340,7 @@
             this.NombreChat.Name = "NombreChat";
             this.NombreChat.Size = new System.Drawing.Size(196, 31);
             this.NombreChat.TabIndex = 41;
+            this.NombreChat.TextChanged += new System.EventHandler(this.NombreChat_TextChanged);
             // 
             // pictureBox3
             // 

@@ -41,11 +41,11 @@
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1507, 866);
+            this.pictureBox1.Size = new System.Drawing.Size(2260, 1353);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // label1
             // 
@@ -53,10 +53,9 @@
             this.label1.BackColor = System.Drawing.Color.RosyBrown;
             this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(783, 421);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(1174, 658);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(165, 38);
+            this.label1.Size = new System.Drawing.Size(258, 60);
             this.label1.TabIndex = 2;
             this.label1.Text = "USERNAME";
             this.label1.Click += new System.EventHandler(this.label1_Click);
@@ -67,29 +66,26 @@
             this.label2.BackColor = System.Drawing.Color.IndianRed;
             this.label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label2.Font = new System.Drawing.Font("Segoe UI Semibold", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(783, 574);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(1174, 897);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(165, 38);
+            this.label2.Size = new System.Drawing.Size(261, 60);
             this.label2.TabIndex = 3;
             this.label2.Text = "PASSWORD";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(1008, 435);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox1.Location = new System.Drawing.Point(1512, 680);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(265, 22);
+            this.textBox1.Size = new System.Drawing.Size(396, 31);
             this.textBox1.TabIndex = 4;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(1008, 588);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox2.Location = new System.Drawing.Point(1512, 919);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(265, 22);
+            this.textBox2.Size = new System.Drawing.Size(396, 31);
             this.textBox2.TabIndex = 5;
             this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
@@ -98,28 +94,26 @@
             this.LogIn.BackColor = System.Drawing.Color.MediumAquamarine;
             this.LogIn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.LogIn.Font = new System.Drawing.Font("Segoe UI Semibold", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LogIn.Location = new System.Drawing.Point(936, 752);
-            this.LogIn.Margin = new System.Windows.Forms.Padding(2);
+            this.LogIn.Location = new System.Drawing.Point(1404, 1175);
             this.LogIn.Name = "LogIn";
-            this.LogIn.Size = new System.Drawing.Size(229, 60);
+            this.LogIn.Size = new System.Drawing.Size(344, 94);
             this.LogIn.TabIndex = 6;
             this.LogIn.Text = "SIGN IN";
             this.LogIn.UseVisualStyleBackColor = false;
             this.LogIn.Click += new System.EventHandler(this.LogIn_Click);
             // 
-            // Form3
+            // SignIn
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1507, 866);
+            this.ClientSize = new System.Drawing.Size(2260, 1353);
             this.Controls.Add(this.LogIn);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
-            this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "Form3";
+            this.Name = "SignIn";
             this.Text = "Registrarse";
             this.Load += new System.EventHandler(this.Form3_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

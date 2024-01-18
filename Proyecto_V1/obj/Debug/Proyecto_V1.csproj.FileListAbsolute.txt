@@ -181,3 +181,17 @@ C:\Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.pdb
 \\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.CoreCompileInputs.cache
 \\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.exe
 \\Mac\Home\Desktop\UNIVERSIDAD\Cuttlefish\Proyecto_V1\obj\Debug\Proyecto_V1.pdb
+C:\_Proyecto-SO\Proyecto_V1\bin\Debug\Proyecto_V1.exe.config
+C:\_Proyecto-SO\Proyecto_V1\bin\Debug\Proyecto_V1.exe
+C:\_Proyecto-SO\Proyecto_V1\bin\Debug\Proyecto_V1.pdb
+C:\_Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.AssemblyReference.cache
+C:\_Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.Interfaz.resources
+C:\_Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.LogIn.resources
+C:\_Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.SignIn.resources
+C:\_Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.Historial.resources
+C:\_Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.Minigame.resources
+C:\_Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.Properties.Resources.resources
+C:\_Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.GenerateResource.cache
+C:\_Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.csproj.CoreCompileInputs.cache
+C:\_Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.exe
+C:\_Proyecto-SO\Proyecto_V1\obj\Debug\Proyecto_V1.pdb

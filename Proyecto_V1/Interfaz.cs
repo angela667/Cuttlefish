@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Collections;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Proyecto_V1
 {
@@ -29,7 +30,7 @@ namespace Proyecto_V1
         bool lobby = true;
         int contador = 0;
         public string username;
-        string nombre;
+        string nombre_invitado;
         int mi_movimiento = 0;
         int ganador = 2;
 
@@ -94,15 +95,6 @@ namespace Proyecto_V1
                         {
                             username = verify[1];
                             registrado = true;
-                            SELECT.Visible = true;
-                            NEXT.Visible = true;
-                            PREVIOUS.Visible = true;
-                            ENVIAR.Visible = true;
-                            pictureBox2.Visible = true;
-                            LabelIntro.Visible = true;
-                            pictureBox1.Image = Image.FromFile("FONDO4.png");
-                            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-                            pictureBox2.Image = this.images[this.contador];
                         }
                         MessageBox.Show(mensaje);
 
@@ -115,21 +107,6 @@ namespace Proyecto_V1
                         {
                             username = trozos[2];
                             registrado = true;
-                            SELECT.Visible = true;
-                            NEXT.Visible = true;
-                            PREVIOUS.Visible = true;
-                            ENVIAR.Visible = true;
-                            pictureBox2.Visible = true;
-                            LabelIntro.Visible = true;
-                            pictureBox1.Image = Image.FromFile("FONDO4.png");
-                            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-                            pictureBox2.Image = this.images[this.contador];
-                            SELECT.Enabled = true;
-                            NEXT.Enabled = true;
-                            PREVIOUS.Enabled = true;
-                            labelChat.Visible = true;
-                            NombreChat.Visible = true;
-                            textoChat.Visible = true;
 
                         }
                         MessageBox.Show(mensaje);
@@ -156,23 +133,36 @@ namespace Proyecto_V1
 
                     case 5: //INVITAR A OTRO USUARIO
 
-                        int quien = Convert.ToInt32(trozos[1]);
-                        int partida = Convert.ToInt32(trozos[2]);
-
-                        if (quien == 0)// respuesta para el anfitrion
+                        var result = MessageBox.Show("Quieres jugar con:" + trozos[1], "ACEPTAR", MessageBoxButtons.YesNo);
+                        Invoke(new Action(() =>
                         {
-                            MessageBox.Show("Ahora eres el anfitrion");
-                        }
-                        else //respuesta para los invitados
-                        {
-                            MessageBox.Show("Bienvenido invitado");
-                        }
+                            if (result == DialogResult.Yes)
+                            {      
+                                byte[] msg = System.Text.Encoding.ASCII.GetBytes("6/" + trozos[1] + "/" + trozos[2] + "/YES");
+                                server.Send(msg);
 
+                            }
+                            if (result == DialogResult.No)
+                            {
+                                byte[] msg = System.Text.Encoding.ASCII.GetBytes("6/" + trozos[1] + "/" + trozos[2] + "/NO");
+                                server.Send(msg);
+                            }
+                        }));
                         break;
 
                     case 6: //RESPUESTA A LA INVITACIÓN
 
+                        if (trozos[1] == "YES")
+                        {
 
+                            MessageBox.Show("Ha aceptado la invitación");
+
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show("No ha aceptado la invitación");
+                        }
                         break;
 
                     case 7://MENSAJE CHAT
@@ -383,8 +373,6 @@ namespace Proyecto_V1
                 disconnect.Visible = false;
                 connect.Visible = true;
             }
-
-
         }
         private void button3_MouseEnter(object sender, EventArgs e)
         {
@@ -500,7 +488,7 @@ namespace Proyecto_V1
             LabelIntro.Visible = false;
             pictureBox2.Visible = false;
             pictureBox3.Visible = true;
-            pictureBox3.Image = Image.FromFile("PIDRA.png");
+            pictureBox3.Image = Image.FromFile("PIEDRA.png");
             pictureBox4.Visible = true;
             pictureBox4.Image = Image.FromFile("PAPEL.png");
             pictureBox5.Visible = true;
@@ -542,39 +530,33 @@ namespace Proyecto_V1
             ganador = 2;
             mi_movimiento = 0;
         }
-        public string Darinvitados()
-        {
-            return mensaje_invitados;
-        }
 
         private void ENVIAR_Click(object sender, EventArgs e)
         {
-            //int InvitarPartida = crearPartida();
-            
-                var random = new Random();
-                int partida = random.Next();
-                mensaje_invitados = "5/" + partida + "/" + username + "/";
 
-                int i;
-                for (i = 0; i < anadir_partida.Count(); i++)
-                {
-                    mensaje_invitados = mensaje_invitados + anadir_partida[i] + "/";
-                }
-
-                string mensaje = mensaje_invitados;
-                // Enviamos al servidor el nombre tecleado
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                server.Send(msg);
+            string mensaje = "5/" + username + "/" + nombre_invitado;
+            // Enviamos al servidor el nombre tecleado
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
         }
+
 
         private void CONNAMES_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = this.CONNAMES.Rows[e.RowIndex];
-                nombre = row.Cells[0].Value.ToString();
-                MessageBox.Show("The selected name is: " + nombre);
+                nombre_invitado = row.Cells[0].Value.ToString();
+                MessageBox.Show("The selected name is: " + nombre_invitado);
+
+                string amigo = nombre_invitado;
+
+                string mensaje = "5/" + username + "/" + amigo;
+                // Enviamos al servidor el nombre tecleado
+                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(msg);
             }
+                
         }
 
         
@@ -626,6 +608,16 @@ namespace Proyecto_V1
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
             mi_movimiento = 3;
+        }
+
+        private void textoChat_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void NombreChat_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
