@@ -51,6 +51,7 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CONNAMES)).BeginInit();
@@ -70,7 +71,7 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Segoe UI Semibold", 22.2F, System.Drawing.FontStyle.Bold);
             this.button1.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.button1.Location = new System.Drawing.Point(44, 277);
+            this.button1.Location = new System.Drawing.Point(86, 340);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(278, 102);
@@ -95,7 +96,7 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Segoe UI Semibold", 22.2F, System.Drawing.FontStyle.Bold);
             this.button2.ForeColor = System.Drawing.SystemColors.MenuText;
-            this.button2.Location = new System.Drawing.Point(44, 171);
+            this.button2.Location = new System.Drawing.Point(86, 234);
             this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(278, 96);
@@ -140,7 +141,7 @@
             this.connect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.connect.Font = new System.Drawing.Font("Segoe UI Semibold", 22.2F, System.Drawing.FontStyle.Bold);
             this.connect.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.connect.Location = new System.Drawing.Point(150, 27);
+            this.connect.Location = new System.Drawing.Point(192, 90);
             this.connect.Margin = new System.Windows.Forms.Padding(4);
             this.connect.Name = "connect";
             this.connect.Size = new System.Drawing.Size(368, 102);
@@ -168,7 +169,7 @@
             this.SELECT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.SELECT.Font = new System.Drawing.Font("Segoe UI Semibold", 22.2F, System.Drawing.FontStyle.Bold);
             this.SELECT.ForeColor = System.Drawing.SystemColors.MenuText;
-            this.SELECT.Location = new System.Drawing.Point(918, 667);
+            this.SELECT.Location = new System.Drawing.Point(960, 730);
             this.SELECT.Margin = new System.Windows.Forms.Padding(4);
             this.SELECT.Name = "SELECT";
             this.SELECT.Size = new System.Drawing.Size(338, 88);
@@ -185,7 +186,7 @@
             this.NEXT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.NEXT.Font = new System.Drawing.Font("Segoe UI Semibold", 22.2F, System.Drawing.FontStyle.Bold);
             this.NEXT.ForeColor = System.Drawing.SystemColors.MenuText;
-            this.NEXT.Location = new System.Drawing.Point(1300, 667);
+            this.NEXT.Location = new System.Drawing.Point(1342, 730);
             this.NEXT.Margin = new System.Windows.Forms.Padding(4);
             this.NEXT.Name = "NEXT";
             this.NEXT.Size = new System.Drawing.Size(150, 88);
@@ -202,7 +203,7 @@
             this.PREVIOUS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.PREVIOUS.Font = new System.Drawing.Font("Segoe UI Semibold", 22.2F, System.Drawing.FontStyle.Bold);
             this.PREVIOUS.ForeColor = System.Drawing.SystemColors.MenuText;
-            this.PREVIOUS.Location = new System.Drawing.Point(736, 667);
+            this.PREVIOUS.Location = new System.Drawing.Point(778, 730);
             this.PREVIOUS.Margin = new System.Windows.Forms.Padding(4);
             this.PREVIOUS.Name = "PREVIOUS";
             this.PREVIOUS.Size = new System.Drawing.Size(150, 88);
@@ -238,10 +239,11 @@
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(2056, 1171);
+            this.pictureBox1.Size = new System.Drawing.Size(2140, 1297);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // CONNAMES
             // 
@@ -292,7 +294,7 @@
             this.ENVIAR.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ENVIAR.Font = new System.Drawing.Font("Segoe UI Semibold", 22.2F, System.Drawing.FontStyle.Bold);
             this.ENVIAR.ForeColor = System.Drawing.SystemColors.MenuText;
-            this.ENVIAR.Location = new System.Drawing.Point(44, 1052);
+            this.ENVIAR.Location = new System.Drawing.Point(86, 1115);
             this.ENVIAR.Margin = new System.Windows.Forms.Padding(4);
             this.ENVIAR.Name = "ENVIAR";
             this.ENVIAR.Size = new System.Drawing.Size(338, 88);
@@ -372,12 +374,20 @@
             this.pictureBox5.TabStop = false;
             this.pictureBox5.Click += new System.EventHandler(this.pictureBox5_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(43, 1029);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(460, 31);
+            this.textBox1.TabIndex = 45;
+            // 
             // Interfaz
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(2056, 1171);
+            this.ClientSize = new System.Drawing.Size(2140, 1297);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.pictureBox5);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.pictureBox3);
@@ -441,6 +451,7 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

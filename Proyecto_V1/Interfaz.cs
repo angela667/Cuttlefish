@@ -16,6 +16,8 @@ using System.Runtime.CompilerServices;
 using System.Collections;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
+using System.Data.Common;
 
 namespace Proyecto_V1
 {
@@ -49,8 +51,8 @@ namespace Proyecto_V1
 
 
         //DEFINIM UNA RUTA IP I PORT
-        string IPadd = "10.211.55.5";
-        int puerto = 5065;
+        string IPadd = "10.4.119.5";
+        int puerto = 50085;
 
 
 
@@ -83,32 +85,21 @@ namespace Proyecto_V1
                 string[] trozos = Encoding.ASCII.GetString(msg2).Split('/');
                 int codigo = Convert.ToInt32(trozos[0]);
                 string mensaje;
-                string[] verify;
 
                 switch (codigo)
                 {
                     case 1:  // SIGN IN
-
                         mensaje = trozos[1].Split('\0')[0];
-                        verify = mensaje.Split(' ');
-                        if (verify[0] == "Usuario")
-                        {
-                            username = verify[1];
-                            registrado = true;
-                        }
+                        username = trozos[2];
+                        registrado = true;
                         MessageBox.Show(mensaje);
-
                         break;
 
                     case 2:  //LOG IN
 
                         mensaje = trozos[1].Split('\0')[0];
-                        if (trozos[1].Split(' ')[0] == "Sesion")
-                        {
-                            username = trozos[2];
-                            registrado = true;
-
-                        }
+                        username = trozos[2];
+                        registrado = true;
                         MessageBox.Show(mensaje);
                         break;
 
@@ -533,9 +524,8 @@ namespace Proyecto_V1
 
         private void ENVIAR_Click(object sender, EventArgs e)
         {
-
-            string mensaje = "5/" + username + "/" + nombre_invitado;
-            // Enviamos al servidor el nombre tecleado
+            string mensaje = "5/" + username + "/" + textBox1.Text;
+            MessageBox.Show("Anfitrion: " + username + "Amigo: " + textBox1.Text);
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
         }
@@ -547,16 +537,16 @@ namespace Proyecto_V1
             {
                 DataGridViewRow row = this.CONNAMES.Rows[e.RowIndex];
                 nombre_invitado = row.Cells[0].Value.ToString();
+
                 MessageBox.Show("The selected name is: " + nombre_invitado);
+                MessageBox.Show("Anfitrion: " + username + "Amigo: " + nombre_invitado);
 
-                string amigo = nombre_invitado;
 
-                string mensaje = "5/" + username + "/" + amigo;
+                string mensaje = "5/" + username + "/" + nombre_invitado;
                 // Enviamos al servidor el nombre tecleado
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                server.Send(msg);
+               // byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                //server.Send(msg);
             }
-                
         }
 
         
@@ -616,6 +606,11 @@ namespace Proyecto_V1
         }
 
         private void NombreChat_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
 
         }
